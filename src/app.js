@@ -2,16 +2,20 @@ const express = require("express");
 
 const app = express();
 
-app.use("/hello",(req,res)=>{
-    res.send("hahahhahhahahha");
-});
+app.use("/user",(req, res,next)=>{
 
-app.use("/test",(req,res)=>{
-    res.send("hello from the server");
-});
+    // res.send("route handler 1");
+    next();
 
-app.use("/home", (req,res)=>{
-    res.send("welcome to home page");
+}, (req,res,next)=>{
+
+    // res.send("second response");
+
+    next();
+
+
+},(req,res)=>{
+    res.send("3 route handler");
 });
 
 app.listen(3000 , ()=>{
