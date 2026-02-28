@@ -57,7 +57,7 @@ try{
 
         res.send("login successfully");
     }else{
-        throw new Error ("invalid credential");
+        throw new Error (" password error");
     }
 }catch(err){
     res.status(404).send("Error:"+ err.message);
