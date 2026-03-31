@@ -22,7 +22,7 @@ profileRouter.patch("/profile/edit",userAuth, async (req,res)=>{
 
    try{
       if(!validateEditProfileData(req)) {
-      throw new Error ("invalid edit request");
+      throw new Error ("invalid profile data");
       }
 
       const loggedInUser = req.user;

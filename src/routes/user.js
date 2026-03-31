@@ -5,7 +5,7 @@ const userAuth = require("../middlewares/auth");
 const ConnectionRequest= require ("../models/connectionRequest");
 
 
-const userSafeData = ["firstName","lastName","age","skills"];
+const userSafeData = ["firstName","lastName","age","about","skills","photoUrl"];
 
 userRouter.get("/user/requests/receiver", userAuth,async (req,res)=>{
     try{
@@ -13,7 +13,7 @@ userRouter.get("/user/requests/receiver", userAuth,async (req,res)=>{
     const connectionRequest = await ConnectionRequest.find({
         toUserId:loggedInUser._id,
         status:"interested",
-    }).populate("fromUserId", ["firstName","lastName"])
+    }).populate("fromUserId", ["firstName","lastName","about","photoUrl"])
 
     res.json({
         message:"Data fetched successfully",
@@ -63,8 +63,14 @@ userRouter.get("/feed",userAuth,async(req,res)=>{
 
     const hideUserFromFeed = new Set();
     connectionRequests.forEach((req)=>{
-        hideUserFromFeed.add(req.fromUserId.toString());
-        hideUserFromFeed.add(req.toUserId.toString());
+        if(req.fromUserId.toString()===loggedInUser._id.toString()){
+             hideUserFromFeed.add(req.toUserId.toString());
+        }else{
+            
+         hideUserFromFeed.add(req.fromUserId.toString());
+
+        }
+       
     });
     const users = await User.find({
       $and:[

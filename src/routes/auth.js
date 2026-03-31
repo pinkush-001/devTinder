@@ -24,13 +24,19 @@ const User = require ("../models/user")
         });
 
     
-        await user.save();
-        res.send( "Data save in the database" );
+        const savedUser = await user.save();
+
+         const token = await savedUser.getjwt();
+
+        res.cookie ("token",token,{
+            expires:new Date(Date.now() + 8 * 3600000),
+        });
+        res.json( {message:"Data save in the database" ,data:savedUser});
 
 
 
     }catch(err){
-        res.send("Error:"+ err.message);
+        res.status(400).send("Error " + err.message);
     }
         
 });
@@ -53,11 +59,13 @@ try{
 
         const token = await user.getjwt();
 
-        res.cookie ("token",token);
+        res.cookie ("token",token,{
+            expires:new Date(Date.now() + 8 * 3600000),
+        });
 
-        res.send("login successfully");
+        res.send(user);
     }else{
-        throw new Error (" password error");
+        throw new Error ("Invalid credentials");
     }
 }catch(err){
     res.status(404).send("Error:"+ err.message);

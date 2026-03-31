@@ -60,6 +60,7 @@ const userSchema = new mongoose.Schema ({
 
     photoUrl:{
         type : String,
+        default:"https://files.reva.ac.in/uploads/faculty_images/6555dd1f7308b1700125983.jpg"
     },
 
     about:{
