@@ -29,6 +29,9 @@ const User = require ("../models/user")
          const token = await savedUser.getjwt();
 
         res.cookie ("token",token,{
+            httpOnly:true,
+            secure:true,
+            sameSite:"none",
             expires:new Date(Date.now() + 8 * 3600000),
         });
         res.json( {message:"Data save in the database" ,data:savedUser});
@@ -60,6 +63,9 @@ try{
         const token = await user.getjwt();
 
         res.cookie ("token",token,{
+            httpOnly:true,
+            secure:true,
+            sameSite:"none",
             expires:new Date(Date.now() + 8 * 3600000),
         });
 
